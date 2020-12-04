@@ -87,6 +87,7 @@ object ProgramParsing {
 
   def parseGProjectFromRoot(
       root: Path,
+      fromFile: Path = pwd / RelPath("scripts/ts"),
       declarationFileMode: Boolean = false,
       filter: Path => Boolean = _ => true
   ): GProject = {
@@ -169,7 +170,7 @@ object ProgramParsing {
 
     GProject(
       root,
-      ProgramParsing.parseGModulesFromFiles(sources, root),
+      ProgramParsing.parseGModulesFromFiles(sources, root, fromFile),
       mapping,
       subProjects,
       devDependencies
@@ -202,17 +203,18 @@ object ProgramParsing {
     */
   def parseGModulesFromFiles(
       srcFiles: Seq[RelPath],
-      projectRoot: Path
+      projectRoot: Path,
+      parsingFromFile: Path = pwd / RelPath("scripts/ts")
   ): Vector[GModule] =
     SimpleMath.withErrorMessage {
-      val command = s"node ${pwd / RelPath("scripts/ts/parsingFromFile.js")} " +
+      val command = s"node ${parsingFromFile / RelPath("parsingFromFile.js")} " +
         s"--src ${srcFiles.mkString(" ")}" +
         s"--lib ${srcFiles.mkString(" ")}"
       s"Failed command: $command"
     } {
       val r = %%(
         'node,
-        pwd / RelPath("scripts/ts/parsingFromFile.js"),
+        parsingFromFile / RelPath("parsingFromFile.js"),
         "--src",
         srcFiles.map(_.toString()),
         "--lib",

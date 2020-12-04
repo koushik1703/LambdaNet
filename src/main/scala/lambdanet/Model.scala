@@ -233,6 +233,7 @@ case class Model(
 
     def predictOnProject(
         sourcePath: Path,
+        fromFile: Path = amm.pwd / "script/ts",
         skipSet: Set[String] = Set("node_modules"),
         onlyPredictLibType: Boolean = false,
         warnOnErrors: Boolean,
@@ -242,6 +243,7 @@ case class Model(
           libDefs,
           sourcePath / amm.up,
           sourcePath,
+          fromFile,
           skipSet = skipSet,
           shouldPruneGraph = false,
           errorHandler = handler,
@@ -263,9 +265,11 @@ case class Model(
         sourcePath: Path,
         warnOnErrors: Boolean,
         skipSet: Array[String],
+        fromFile: Path
     ): Map[PNode, TopNDistribution[PType]] = {
       predictOnProject(
         sourcePath,
+        fromFile,
         skipSet = skipSet.toSet,
         warnOnErrors = warnOnErrors,
         onlyPredictLibType = false

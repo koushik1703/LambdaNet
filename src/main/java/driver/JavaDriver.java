@@ -33,9 +33,8 @@ public class JavaDriver {
                         api.absPath(line) :
                         api.joinPath(workDir, line);
                 String[] skipSet = {"node_modules"};
-                var results =
-                        predService.predictOnProject(sourcePath, false, skipSet);
-                new TypeInferenceService.PredictionResults(results).prettyPrint();
+                // var results = predService.predictOnProject(sourcePath, false, skipSet);
+                // new TypeInferenceService.PredictionResults(results).prettyPrint();
                 System.out.println("DONE");
             } catch (Throwable e) {
                 System.out.println("Got exception: " + e.getMessage());

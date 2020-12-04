@@ -593,6 +593,7 @@ object PrepareRepos {
       libDefs: LibDefs,
       projectsBase: Path,
       projectRoot: Path,
+      fromFile: Path = pwd / RelPath("scripts/ts"),
       skipSet: Set[String] = Set("dist", "__tests__", "test", "tests"),
       shouldPruneGraph: Boolean = true,
       shouldPrintProject: Boolean = false,
@@ -604,6 +605,7 @@ object PrepareRepos {
 
       val p = ProgramParsing.parseGProjectFromRoot(
         projectRoot,
+        fromFile,
         filter = (path: Path) => {
           path.segments.forall(!skipSet.contains(_))
         }
