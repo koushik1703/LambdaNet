@@ -64,6 +64,29 @@ object TypeInferenceService {
       model
     }
 
+  case class PredictionResultsWithVariable(map: Map[PredicateGraph.PNode, TopNDistribution[PredicateGraph.PType]], project: String) {
+    def prettyPrint(): Unit = {
+      val byFile = map.keys.groupBy(_.srcSpan.get.srcFile).toSeq.sortBy(_._1)
+      byFile.foreach {
+        case (file, nodes) =>
+          println(s"")
+          println(s"=== File: $file ===")
+          nodes.toSeq.sortBy(_.srcSpan.get.start).foreach { n =>
+            val variable = n.srcSpan.get.showVariable(project, s"$file")
+            val rankedList = map(n).distr.zipWithIndex
+              .map {
+                case ((p, ty), i) => {
+                  val acc = "%.2f".format(p * 100)
+                  s"[${i + 1}]($acc%) ${ty.showSimple}"
+                }
+              }
+              .mkString(", ")
+            println(s"$variable: $rankedList")
+          }
+      }
+    }
+  }
+
   case class PredictionResults(
       map: Map[PredicateGraph.PNode, TopNDistribution[PredicateGraph.PType]]
   ) {

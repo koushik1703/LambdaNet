@@ -5,6 +5,7 @@ import org.nd4j.linalg.api.buffer.DataType
 import org.nd4j.linalg.factory.Nd4j
 
 import scala.collection.mutable
+import scala.io.Source
 
 /**
   * == LambdaNet: Deep Probabilistic Type Inference that Type-Checks ==
@@ -71,6 +72,13 @@ package object lambdanet extends SimpleMath.ExtensionsTrait {
       val start1 = (start._1 + zeroIdx, start._2 + zeroIdx)
       val until1 = (until._1 + zeroIdx, until._2 + zeroIdx)
       s"$start1-$until1"
+    }
+
+    def showVariable(project:String, file: String, oneBasedLineNumber: Boolean = true): String = {
+      val zeroIdx = if (oneBasedLineNumber) 1 else 0
+      val line = Source.fromFile(project + file).getLines drop(start._1 + zeroIdx - 1) next()
+      val variable = line.substring(start._2 + zeroIdx - 1, until._2 + zeroIdx - 1)
+      s"The Variable '$variable' is predicted type as :"
     }
   }
 
