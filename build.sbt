@@ -86,3 +86,10 @@ runTrained :=
   (runMain in Compile).toTask(" lambdanet.RunTrainedModel").value
 
 discoveredMainClasses in Compile += "driver.JavaDriver"
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
+test in assembly := {}
+assemblyJarName in assembly := "LambdaNet.jar"
