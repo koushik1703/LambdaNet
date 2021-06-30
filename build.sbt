@@ -32,6 +32,7 @@ val nd4jBinary = {
   val useCuda = new File("configs/useCuda.txt").exists()
   if (useCuda) "nd4j-cuda-10.0-platform" else "nd4j-native-platform"
 }
+javacOptions ++= Seq("-source", "11", "-target", "11")
 
 javaOptions ++= Seq(
   s"-Xms2G",
