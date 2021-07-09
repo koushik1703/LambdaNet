@@ -1,8 +1,10 @@
 package driver;
 
 
+import lambdanet.TyVar;
 import lambdanet.TypeInferenceService;
 import lambdanet.TypeInferenceService$;
+import scala.Symbol;
 
 public class JavaDriver {
     public static void main(String[] args) {
@@ -42,5 +44,7 @@ public class JavaDriver {
                 e.printStackTrace();
             }
         }
+        var miss = api.missing();
+
     }
 }
