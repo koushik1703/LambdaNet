@@ -29,16 +29,14 @@ object JavaAPI {
     println("This is a test main function.")
   }
 
-  def srcSpan(startLine: Int, startIndex: Int, endLine: Int, endIndex: Int, sourcePath:ProjectPath): SrcSpan =
+  def srcSpan(startLine: Int, startIndex: Int, endLine: Int, endIndex: Int, sourcePath: RelPath): SrcSpan =
     SrcSpan((startLine, startIndex),(endLine, endIndex), sourcePath)
 
-  def userAnnotation[T](ty: T, inferred: Boolean): User[T] =
+  def userAnnotation[T](ty: T, inferred: Boolean): Annot[T] =
     User[T](ty, inferred)
 
-  def fixed[T](ty: T): Fixed[T] =
+  def fixed[T](ty: T): Annot[T] =
     Fixed[T](ty)
 
-  def missing: Missing.type = Missing
-
-  
+  def missing: Annot[GType] = Missing
 }
